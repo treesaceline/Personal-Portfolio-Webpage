@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treesa M J | Robotics & AI Student Portfolio</title>
+    <style>
+        /* Modern CSS Variables based on requested colors */
+        :root {
+            /* Base Theme Colors */
+            --bg-dark: #0f172a;       /* Dark Navy base */
+            --bg-rose: #9b7373;       /* Dusty Rose (#9b7373) */
+            --accent-light: #ffdede;  /* Blush/Blue Accent (#ffdede) */
+            --accent-glow: rgba(255, 222, 222, 0.4);
+            
+            /* Typography & Layout spacing */
+            --text-heading: #ffffff;
+            --text-body: #f8fafc;
+            --text-muted: #cbd5e1;
+            
+            --card-bg: rgba(155, 115, 115, 0.12);
+            --card-border: rgba(255, 222, 222, 0.15);
+            --transition-swift: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Ambient animation */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            /* Rich gradient mesh transitioning from Navy to Rose (#9b7373) */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(15, 23, 42, 0.9) 0%, rgba(30, 27, 75, 0.95) 40%, rgba(155, 115, 115, 0.6) 100%);
+            background-attachment: fixed;
+            color: var(--text-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Neural Interconnect Background Canvas */
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: all;
+            opacity: 0.35;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Premium Header / Navigation Bar */
+        header {
+            width: 100%;
+            padding: 24px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-light);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition-swift);
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-light);
+            transition: var(--transition-swift);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-heading);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        #hero {
+            padding: 120px 0 80px 0;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(155, 115, 115, 0.4);
+            border: 1px solid var(--accent-light);
+            color: var(--accent-light);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-title {
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--text-heading);
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero-title span {
+            color: var(--accent-light);
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            max-width: 580px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-swift);
+            font-size: 0.95rem;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-light);
+            color: var(--bg-dark);
+            border: 1px solid var(--accent-light);
+            box-shadow: 0 4px 14px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background-color: #ffffff;
+            box-shadow: 0 6px 20px rgba(255, 222, 222, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 222, 222, 0.08);
+            color: var(--text-heading);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 222, 222, 0.16);
+            border-color: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        /* Custom Interactive SVG Floating Robot (Hero Right) */
+        .hero-interactive-zone {
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .robot-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: float 6s ease-in-out infinite;
+            text-align: center;
+        }
+
+        .robot-svg-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 16px auto;
+            position: relative;
+        }
+
+        .robot-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .robot-eye {
+            fill: var(--accent-light);
+            transition: var(--transition-swift);
+        }
+
+        .robot-status-banner {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent-light);
+            border: 1px solid rgba(255,222,222,0.1);
+        }
+
+        /* Section layout */
+        .section {
+            padding: 80px 0;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .section-title-wrap {
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .section-line {
+            width: 48px;
+            height: 4px;
+            background: var(--accent-light);
+            margin-top: 12px;
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* Skills Layout */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 32px;
+            transition: var(--transition-swift);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 100% 100%, rgba(255,222,222,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-light);
+            box-shadow: 0 12px 30px rgba(155, 115, 115, 0.3);
+        }
+
+        .skill-icon {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 12px;
+        }
+
+        .skill-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .skill-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background-color: rgba(255, 222, 222, 0.08);
+            border: 1px solid var(--card-border);
+            color: var(--accent-light);
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition-swift);
+        }
+
+        .skill-card:hover .tag {
+            background-color: rgba(255, 222, 222, 0.15);
+            border-color: var(--accent-light);
+        }
+
+        /* Interactive "Prompt-To-Robot" Simulator */
+        .simulator-layout {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 32px;
+            backdrop-filter: blur(8px);
+            margin-bottom: 40px;
+        }
+
+        .simulator-header {
+            margin-bottom: 20px;
+        }
+
+        .sim-input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .sim-input {
+            flex: 1;
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            color: #ffffff;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-swift);
+        }
+
+        .sim-input:focus {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 10px rgba(255, 222, 222, 0.2);
+        }
+
+        .terminal-box {
+            background: #090d16;
+            border-radius: 10px;
+            padding: 16px 20px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9rem;
+            color: #6ee7b7;
+            border: 1px solid rgba(255, 222, 222, 0.05);
+            min-height: 80px;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-light);
+        }
+
+        /* Contact Section */
+        #contact {
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .contact-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 56px 40px;
+            max-width: 680px;
+            margin: 0 auto;
+            backdrop-filter: blur(12px);
+        }
+
+        .contact-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 12px;
+        }
+
+        .contact-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .socials a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition-swift);
+        }
+
+        .socials a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 0;
+            }
+            .nav-links {
+                display: none; /* Centered layout for mobile app context */
+            }
+            #hero {
+                padding: 60px 0 40px 0;
+            }
+            .hero-layout {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                text-align: center;
+            }
+            .hero-tagline {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .cta-group {
+                justify-content: center;
+            }
+            .btn {
+                width: 100%;
+            }
+            .simulator-layout {
+                padding: 20px;
+            }
+            .sim-input-group {
+                flex-direction: column;
+            }
+            .sim-input-group button {
+                width: 100%;
+            }
+            .contact-box {
+                padding: 36px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas background for neural pattern rendering -->
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container nav">
+            <a href="#" class="logo">
+                <div class="logo-dot"></div>
+                Treesa M J
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Interaction</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-layout">
+                <div>
+                    <div class="hero-pill">
+                        <span class="logo-dot" style="width:8px; height:8px;"></span>
+                        2nd Year B.Tech Robotics & AI
+                    </div>
+                    <h1 class="hero-title">Engineering the<br>Intelligent <span>Robotics</span></h1>
+                    <p class="hero-tagline">
+                        Hi, I'm <strong>Treesa M J</strong>. I specialize in designing autonomous systems, deploying modern version control workflows, crafting performant standard structures, and utilizing cutting-edge AI tools to shape physical interfaces.
+                    </p>
+                    <div class="cta-group">
+                        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                        <a href="#skills" class="btn btn-secondary">Explore Skills</a>
+                    </div>
+                </div>
+
+                <div class="hero-interactive-zone">
+                    <div class="robot-card" id="robot-display">
+                        <div class="robot-svg-container">
+                            <svg class="robot-svg" viewBox="0 0 100 100">
+                                <!-- Antennas -->
+                                <line x1="50" y1="20" x2="50" y2="5" stroke="#ffdede" stroke-width="3" stroke-linecap="round"/>
+                                <circle cx="50" cy="5" r="4" fill="#ffdede" class="glowing-node"/>
+                                
+                                <!-- Ears -->
+                                <rect x="25" y="32" width="6" height="12" rx="3" fill="#9b7373"/>
+                                <rect x="69" y="32" width="6" height="12" rx="3" fill="#9b7373"/>
+
+                                <!-- Head -->
+                                <rect x="30" y="22" width="40" height="32" rx="8" fill="#1e293b" stroke="#ffdede" stroke-width="2"/>
+                                
+                                <!-- Eyes Screen -->
+                                <rect x="36" y="30" width="28" height="12" rx="4" fill="#0f172a" stroke="rgba(255,222,222,0.3)"/>
+                                <circle id="eye-left" class="robot-eye" cx="44" cy="36" r="3.5" fill="#ffdede"/>
+                                <circle id="eye-right" class="robot-eye" cx="56" cy="36" r="3.5" fill="#ffdede"/>
+
+                                <!-- Neck -->
+                                <rect x="45" y="54" width="10" height="6" fill="#475569"/>
+
+                                <!-- Body -->
+                                <rect x="24" y="60" width="52" height="35" rx="10" fill="#1e293b" stroke="#ffdede" stroke-width="2"/>
+                                <!-- Mini Dashboard chest pattern -->
+                                <line x1="32" y1="70" x2="48" y2="70" stroke="#9b7373" stroke-width="3"/>
+                                <line x1="32" y1="78" x2="40" y2="78" stroke="#ffdede" stroke-width="3"/>
+                                <circle cx="62" cy="74" r="5" fill="#ffdede" opacity="0.8"/>
+                            </svg>
+                        </div>
+                        <div class="robot-status-banner" id="robot-status">
+                            &gt; System Online. Greeting Treesa!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="section-title-wrap">
+                <h2 class="section-title">Highlighted Skills</h2>
+                <p class="section-subtitle">A snapshot of my fundamental tech stack and domains of excellence.</p>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-grid">
+                <!-- Skill 1: HTML -->
+                <div class="skill-card">
+                    <span class="skill-icon">🌐</span>
+                    <h3 class="skill-name">HTML & Web Layouts</h3>
+                    <p class="skill-description">
+                        Building semantics-first structure with accessibility standards. Experience crafting layouts for IoT Dashboards and local machine interfaces.
+                    </p>
+                    <div class="skill-pills">
+                        <span class="tag">HTML5 Spec</span>
+                        <span class="tag">Accessibility</span>
+                        <span class="tag">Semantic DOM</span>
+                        <span class="tag">Responsive UI</span>
+                    </div>
+                </div>
+
+                <!-- Skill 2: Git -->
+                <div class="skill-card">
+                    <span class="skill-icon">🌳</span>
+                    <h3 class="skill-name">Git & Version Control</h3>
+                    <p class="skill-description">
+                        Reliable asset management, complex branch/rebase structures, cherry-picking logs, and collaborative project pipelines via GitHub.
+                    </p>
+                    <div class="skill-pills">
+                        <span class="tag">Branching</span>
+                        <span class="tag">GitHub Actions</span>
+                        <span class="tag">Conflict Resolution</span>
+                        <span class="tag">PR Workflows</span>
+                    </div>
+                </div>
+
+                <!-- Skill 3: AI Tools -->
+                <div class="skill-card">
+                    <span class="skill-icon">🧠</span>
+                    <h3 class="skill-name">AI Tools & Reasoning</h3>
+                    <p class="skill-description">
+                        Leveraging large language models, advanced prompt chains, vector processing, and synthetic data simulation to accelerate smart hardware algorithms.
+                    </p>
+                    <div class="skill-pills">
+                        <span class="tag">LLM Prompting</span>
+                        <span class="tag">Gemini API</span>
+                        <span class="tag">Computer Vision</span>
+                        <span class="tag">Neural Simulators</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive AI Simulator Section -->
+        <section id="projects" class="section">
+            <div class="section-title-wrap">
+                <h2 class="section-title">Interactive AI Simulation</h2>
+                <p class="section-subtitle">Interact with the AI Assistant core. Execute instructions on the digital twin.</p>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="simulator-layout">
+                <p style="margin-bottom: 20px; font-size: 1rem; color: var(--text-muted);">
+                    Type a robotic operational directive below (e.g., <code style="color:var(--accent-light);">"scan"</code>, <code style="color:var(--accent-light);">"celebrate"</code>, <code style="color:var(--accent-light);">"shutdown"</code>, or <code style="color:var(--accent-light);">"wave"</code>) and witness Treesa's companion algorithm parse the text in real-time.
+                </p>
+                <div class="sim-input-group">
+                    <input type="text" id="command-input" class="sim-input" placeholder="Type a command (e.g. scan) and press Execute..." onkeydown="if(event.key === 'Enter') executeCommand()">
+                    <button class="btn btn-primary" onclick="executeCommand()">Execute Directive</button>
+                </div>
+                <div class="terminal-box" id="terminal-output">
+                    <span class="terminal-prompt">&gt; TreesaOS v2.4_RoboticsAI: Ready.</span><br>
+                    Waiting for pipeline instruction...
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery / Focus Context Info -->
+        <section id="academic" class="section" style="border-bottom: 1px solid var(--card-border);">
+            <div class="section-title-wrap">
+                <h2 class="section-title">Academic Paradigm</h2>
+                <p class="section-subtitle">Overview of B.Tech Robotics & Artificial Intelligence focuses.</p>
+                <div class="section-line"></div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px; flex-wrap:wrap;" id="academic-cards">
+                <div class="skill-card">
+                    <h3 class="skill-name" style="font-size:1.15rem;">🤖 Kinematics & Physical Computing</h3>
+                    <p class="skill-description" style="font-size:0.9rem; margin-bottom:0;">
+                        Integrating microcontrollers and sensory arrays (LiDAR, ultrasonic) into responsive hardware loops using efficient local programming paradigms.
+                    </p>
+                </div>
+                <div class="skill-card">
+                    <h3 class="skill-name" style="font-size:1.15rem;">📊 Data Mining & Agent Architectures</h3>
+                    <p class="skill-description" style="font-size:0.9rem; margin-bottom:0;">
+                        Studying adaptive algorithms, semantic mapping, neural models, and statistical intelligence pathways to construct decision pipelines.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="contact-box">
+                <h2 class="contact-title">Let's Connect</h2>
+                <p class="contact-desc">
+                    I am actively seeking B.Tech internships, tech integrations, and collaborative Robotics or intelligence development initiatives. Let's build something remarkable.
+                </p>
+                <a href="mailto:treesajohnny345@gmail.com" class="btn btn-primary" style="padding: 18px 42px; font-size: 1.1rem;">
+                     Contact Treesa via Email
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Treesa M J. All rights reserved.</p>
+            <p style="font-size: 0.8rem; margin-top: 6px; color: var(--accent-light);">B.Tech Robotics & AI • 2nd Year Student Portfolio</p>
+            <div class="socials">
+                <a href="mailto:treesajohnny345@gmail.com">treesajohnny345@gmail.com</a>
+                <span style="color:var(--card-border);">|</span>
+                <a href="#hero">Back to Top</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Canvas Particle Script & Command Script -->
+    <script>
+        // Neural interactive connection graph on Canvas
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const particles = [];
+        const numParticles = Math.min(width < 768 ? 20 : 50, 60);
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.0;
+                this.vy = (Math.random() - 0.5) * 1.0;
+                this.radius = Math.random() * 2 + 1.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > height) this.vy = -this.vy;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffdede';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle());
+        }
+
+        // Tap listener to drop a node
+        window.addEventListener('click', (e) => {
+            if (e.target.id === 'neural-canvas') {
+                const p = new Particle();
+                p.x = e.clientX;
+                p.y = e.clientY;
+                p.vx = (Math.random() - 0.5) * 2;
+                p.vy = (Math.random() - 0.5) * 2;
+                particles.push(p);
+                if (particles.length > 70) particles.shift();
+            }
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Connect lines
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        // Blend color using user custom hex values (#9b7373 and #ffdede)
+                        ctx.strokeStyle = `rgba(255, 222, 222, ${1 - dist / 120})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+
+        // ROBOT DIRECTIVE PARSING LOGIC
+        const STATUS_MSG = document.getElementById('robot-status');
+        const TERMINAL = document.getElementById('terminal-output');
+        const EYE_L = document.getElementById('eye-left');
+        const EYE_R = document.getElementById('eye-right');
+
+        function executeCommand() {
+            const input = document.getElementById('command-input');
+            const directive = input.value.trim().toLowerCase();
+            if (!directive) return;
+
+            TERMINAL.innerHTML = `<span class="terminal-prompt">&gt; Input: "${directive}"</span><br>Analyzing semantics of instruction...<br>`;
+            
+            setTimeout(() => {
+                if (directive.includes('scan')) {
+                    TERMINAL.innerHTML += `Status: <span style="color:#34d399">SUCCESS</span>.<br>&gt; Activating thermal lidar scanner... Matrix mapping online!`;
+                    STATUS_MSG.innerText = `> Parsing SCAN directive. Grid scanning: 100%`;
+                    blinkColor('#ff0033');
+                } else if (directive.includes('celebrate') || directive.includes('dance')) {
+                    TERMINAL.innerHTML += `Status: <span style="color:#34d399">SUCCESS</span>.<br>&gt; Firing happiness protocol subroutines. Yay! 🎉 <br>&gt; Spinning servos at high frequency.`;
+                    STATUS_MSG.innerText = `> System Status: Overloading on high-vibe!`;
+                    spinEyes();
+                } else if (directive.includes('shutdown')) {
+                    TERMINAL.innerHTML += `Status: <span style="color:#f43f5e">STANDBY</span>.<br>&gt; Activating energy preservation state... Zzz. Type 'wake' to restore.`;
+                    STATUS_MSG.innerText = `> Sleep Mode Enabled.`;
+                    dimEyes();
+                } else if (directive.includes('wake') || directive.includes('start') || directive.includes('online')) {
+                    TERMINAL.innerHTML += `Status: <span style="color:#34d399">ONLINE</span>.<br>&gt; Restorying auxiliary buffers. TreesaOS Ready!`;
+                    STATUS_MSG.innerText = `> System Online. Greeting Treesa!`;
+                    wakeEyes();
+                } else if (directive.includes('wave')) {
+                    TERMINAL.innerHTML += `Status: <span style="color:#34d399">SUCCESS</span>.<br>&gt; Activating manipulator arm... waving to prospective collaborators! 👋`;
+                    STATUS_MSG.innerText = `> Greetings visitor! Treesa welcomes you.`;
+                    blinkEyesTwice();
+                } else {
+                    TERMINAL.innerHTML += `Status: <span style="color:#38bdf8">INFO RECEIVED</span>.<br>&gt; TreesaSynthesizer matched custom task: "${directive}". Ready for code deployment.`;
+                    STATUS_MSG.innerText = `> Executed: ${directive}`;
+                    pulseEyes();
+                }
+            }, 600);
+
+            input.value = '';
+        }
+
+        // SVG Robot anims helper
+        function blinkColor(color) {
+            EYE_L.setAttribute('fill', color);
+            EYE_R.setAttribute('fill', color);
+            setTimeout(() => {
+                EYE_L.setAttribute('fill', '#ffdede');
+                EYE_R.setAttribute('fill', '#ffdede');
+            }, 2000);
+        }
+
+        function spinEyes() {
+            let rotations = 0;
+            const timer = setInterval(() => {
+                rotations++;
+                EYE_L.setAttribute('cx', 44 + Math.sin(rotations) * 2);
+                EYE_R.setAttribute('cx', 56 + Math.sin(rotations) * 2);
+                if (rotations > 10) {
+                    clearInterval(timer);
+                    EYE_L.setAttribute('cx', 44);
+                    EYE_R.setAttribute('cx', 56);
+                }
+            }, 100);
+        }
+
+        function dimEyes() {
+            EYE_L.setAttribute('opacity', '0.1');
+            EYE_R.setAttribute('opacity', '0.1');
+        }
+
+        function wakeEyes() {
+            EYE_L.setAttribute('opacity', '1');
+            EYE_R.setAttribute('opacity', '1');
+            EYE_L.setAttribute('fill', '#ffdede');
+            EYE_R.setAttribute('fill', '#ffdede');
+        }
+
+        function blinkEyesTwice() {
+            dimEyes();
+            setTimeout(() => { wakeEyes(); setTimeout(() => { dimEyes(); setTimeout(wakeEyes, 150); }, 150); }, 150);
+        }
+
+        function pulseEyes() {
+            EYE_L.setAttribute('r', '5');
+            EYE_R.setAttribute('r', '5');
+            setTimeout(() => {
+                EYE_L.setAttribute('r', '3.5');
+                EYE_R.setAttribute('r', '3.5');
+            }, 400);
+        }
+    </script>
+</body>
+</html>
